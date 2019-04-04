@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{569224B8-4786-4DCE-9004-A9E72DC4D7CA}</ProjectGuid>
+    <ProjectGuid>{80C1A178-F439-4306-A35C-313A2E9F45A6}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>CustomerClient</RootNamespace>
-    <AssemblyName>CustomerClient</AssemblyName>
+    <RootNamespace>AdminClient</RootNamespace>
+    <AssemblyName>AdminClient</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -67,7 +67,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <None Include="Properties\DataSources\MainForm.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -81,7 +80,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\DTO\DTO.csproj">
       <Project>{14449173-33ae-4e72-a2d0-9654cb530e06}</Project>
