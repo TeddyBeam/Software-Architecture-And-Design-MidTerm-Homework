@@ -9,13 +9,23 @@ namespace CustomerClient
 {
     public partial class MainForm : Form
     {
+        /// <summary>
+        /// Danh sách chi tiết hóa đơn để bind vào <see cref="OrderDetailsDataGridView"/>.
+        /// </summary>
         public BindingList<OrderDetails> orderDetails = new BindingList<OrderDetails>();
+
+        /// <summary>
+        /// Object để thao tác với message queue.
+        /// </summary>
         private MessageQueue messageQueue;
 
         public MainForm()
         {
             InitializeComponent();
             InitQueue();
+
+            /// Bind danh sách chi tiết hóa đơn vào view.
+            /// Khi view cập nhật thì danh sách dưới code cũng tự động cập nhật.
             OrderDetailsDataGridView.DataSource = orderDetails;
         }
 
@@ -24,9 +34,9 @@ namespace CustomerClient
         /// </summary>
         private void InitQueue()
         {
-            messageQueue = MessageQueue.Exists(Constants.QueuePath)
-                ? new MessageQueue(Constants.QueuePath, QueueAccessMode.Send)
-                : MessageQueue.Create(Constants.QueuePath, true);
+            messageQueue = MessageQueue.Exists(Constants.QueuePath) // Kiểm tra xem queue này đã được tạo trước đó chưa.
+                ? new MessageQueue(Constants.QueuePath, QueueAccessMode.Send) // Nếu tạo rồi thì liên kết tới nó, chỉ cho gửi.
+                : MessageQueue.Create(Constants.QueuePath, true); // Chưa tạo thì tạo cái queue mới.
         }
 
         /// <summary>

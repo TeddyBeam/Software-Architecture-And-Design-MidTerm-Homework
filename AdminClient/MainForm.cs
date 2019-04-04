@@ -8,6 +8,9 @@ namespace AdminClient
 {
     public partial class MainForm : Form
     {
+        /// <summary>
+        /// Object để thao tác với message queue.
+        /// </summary>
         private MessageQueue messageQueue;
 
         public MainForm()
@@ -16,6 +19,7 @@ namespace AdminClient
             InitQueue();
             InitOldMessages();
 
+            /// Lắng nghe event khi có 1 message được gửi lên queue.
             messageQueue.BeginReceive();
             messageQueue.ReceiveCompleted += OnNewMessageReceived;
         }
@@ -25,9 +29,9 @@ namespace AdminClient
         /// </summary>
         private void InitQueue()
         {
-            messageQueue = MessageQueue.Exists(Constants.QueuePath)
-                ? new MessageQueue(Constants.QueuePath, QueueAccessMode.Receive)
-                : MessageQueue.Create(Constants.QueuePath, true);
+            messageQueue = MessageQueue.Exists(Constants.QueuePath)  // Kiểm tra xem queue này đã được tạo trước đó chưa.
+                ? new MessageQueue(Constants.QueuePath, QueueAccessMode.Receive)  // Nếu tạo rồi thì liên kết tới nó, chi cho đọc & nhận.
+                : MessageQueue.Create(Constants.QueuePath, true); // Chưa tạo thì tạo cái queue mới.
         }
 
         /// <summary>
@@ -35,10 +39,8 @@ namespace AdminClient
         /// </summary>
         private void InitOldMessages()
         {
-            foreach(System.Messaging.Message message in messageQueue.GetAllMessages())
-            {
+            foreach(System.Messaging.Message message in messageQueue.GetAllMessages()) // Duyệt qua toàn bộ các message còn trên hệ thống.
                 AddOrder(ParseOrderFromMessage(message));
-            }
         }
 
         /// <summary>
@@ -63,6 +65,7 @@ namespace AdminClient
             }
             else
             {
+                /// Thêm thông tin hóa đơn vào giao diện (cần update thêm)
                 var item = new ListViewItem(new string[] 
                 {
                     order.CustomerName,
@@ -70,6 +73,8 @@ namespace AdminClient
                     order.IsSolved.ToString()
                 });
                 OrdersListView.Items.Add(item);
+
+                /// Đợi message tiếp theo.
                 messageQueue.BeginReceive();
             }
 
